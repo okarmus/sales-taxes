@@ -2,7 +2,9 @@ package org.okarmus
 
 import BigDecimal.RoundingMode.HALF_UP
 
-case class Price(net: BigDecimal) {
+trait Price{}
+
+case class NetPrice(net: BigDecimal) extends Price {
 
   def tax(taxRate: BigDecimal): TaxedPrice = {
     val gross = (taxRate * net).setScale(2, HALF_UP).rounded
@@ -11,6 +13,6 @@ case class Price(net: BigDecimal) {
   }
 }
 
-case class TaxedPrice(gross: BigDecimal, tax: BigDecimal) {
+case class TaxedPrice(gross: BigDecimal, tax: BigDecimal) extends Price {
   def + (other: TaxedPrice): TaxedPrice = TaxedPrice(gross + other.gross, tax + other.tax)
 }

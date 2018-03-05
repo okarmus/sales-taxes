@@ -17,9 +17,9 @@ object OutputBuilder{
   }
 
   import implicits._
-  implicit val itemOutput: OutputBuilder[Item] = item => s"${item.quantity} ${item.name}: ${item.price.net}"
+  implicit val itemOutput: OutputBuilder[TaxedItem] = taxedItem => s"${taxedItem._1.quantity} ${taxedItem._1.name}: ${taxedItem._2.gross}"
 
-  implicit val itemsOutput: OutputBuilder[List[Item]] = items => items.map(_.build).mkString("\n")
+  implicit val itemsOutput: OutputBuilder[List[TaxedItem]] = items => items.map(_.build).mkString("\n")
 
   implicit val taxOutput: OutputBuilder[TaxedPrice] = taxes =>  s"Sales Taxes: ${taxes.tax}\nTotal: ${taxes.gross}"
 
